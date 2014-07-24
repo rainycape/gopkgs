@@ -63,7 +63,11 @@ func listGoPkgsPackages() ([]string, error) {
 			}
 			dotGit := filepath.Join(s, ".git")
 			if st, err := os.Stat(dotGit); err == nil && st.IsDir() {
-				pkgs = append(pkgs, strings.TrimPrefix(s, trim))
+				pkg := strings.TrimPrefix(s, trim)
+				// Ignore the gopkgs command
+				if pkg != "gopkgs.com/cmd/gopkgs" {
+					pkgs = append(pkgs, pkg)
+				}
 			}
 			return nil
 		})
