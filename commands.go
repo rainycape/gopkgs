@@ -5,6 +5,23 @@ import (
 )
 
 var (
+	rewriteHelp = `rewrite rewrites import paths in the given packages to use
+gopkgs.com import paths when possible.
+
+Packages might be specified either as import paths, or file paths to package
+directories (either absolute or relative). If no packages are specified, the package
+at the current directory is used.
+
+By default, rewrite will try to use package versions, falling back to package revisions
+when the package has no available versions. This behavior can be changed using the -r
+flag.
+
+Users should generally avoid pinning packages on exact revisions when writing reusable
+libraries. For this reason, the -lib flag defaults to auto, which will enable library mode
+when the package name is different than "main". When enabled, this flag causes rewrite to
+refuse pinning packages on revisions, taking precedence over the -r flag. This behavior
+might be overridden by setting either -lib=true or -lib=false, but is usually not
+recommended to do so.`
 	importPathHelp = `
 
 <import-path> might be either the original package import path, like
@@ -23,6 +40,14 @@ versions and revisions of a given package.` + importPathHelp
 
 var (
 	commands = []*command.Cmd{
+		{
+			Name:     "rewrite",
+			Help:     "Rewrite import paths to use gopkgs.com when possible",
+			LongHelp: rewriteHelp,
+			Usage:    "[pkg-1] [pkg-2] ... [pkg-n]",
+			Func:     rewriteSubcommand,
+			Options:  &rewriteOptions{Library: "auto"},
+		},
 		{
 			Name:     "doc",
 			Help:     "Open package documentation in the default browser",
