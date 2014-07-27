@@ -31,6 +31,7 @@ type Repo struct {
 	GoPkgsPath          string `json:"gopkgs_path"`
 	Version             int    `json:"version"`
 	Revision            string `json:"revision"`
+	AllowsUnpinned      bool   `json:"allows_unpinned"`
 	Error               string `json:"error"`
 	DocumentationPrefix string `json:"documentation_prefix"`
 }

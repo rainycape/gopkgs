@@ -364,12 +364,17 @@ addRewrites:
 		var importPath string
 		if libraryMode {
 			if v.Version == 0 {
-				if opts.Verbose {
-					fmt.Printf("ignoring package %s, no versions available\n", v.Path)
+				if v.AllowsUnpinned {
+					importPath = v.GoPkgsPath
+				} else {
+					if opts.Verbose {
+						fmt.Printf("ignoring package %s, no versions available\n", v.Path)
+					}
+					continue
 				}
-				continue
+			} else {
+				importPath = v.VersionImportPath()
 			}
-			importPath = v.VersionImportPath()
 		} else {
 			if opts.PreferRevisions {
 				importPath = v.RevisionImportPath()
