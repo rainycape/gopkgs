@@ -33,6 +33,10 @@ package in the default web browser. By default, doc will initially
 open the latest available version of the package. The -r flag 
 might be used to open the latest revision instead.` + importPathHelp
 
+	getHelp = `get downloads packages using gopkgs.com import paths.
+By default, get will download the latest available version of the package.
+The -r flag might be used to download the latest revision instead.` + importPathHelp
+
 	viewHelp = `view shows the given package at gopkgs.com in the
 default web browser. This command can be used to view all the available
 versions and revisions of a given package.` + importPathHelp
@@ -57,10 +61,12 @@ var (
 			Options:  &docOptions{},
 		},
 		{
-			Name:    "get",
-			Help:    "Download or update go packages from gopkgs.com",
-			Func:    getCommand,
-			Options: &getOptions{},
+			Name:     "get",
+			Help:     "Download or update go packages from gopkgs.com",
+			Usage:    "<import-path-1> [import-path-2] ... [import-path-n]",
+			LongHelp: getHelp,
+			Func:     getCommand,
+			Options:  &getOptions{},
 		},
 		{
 			Name:     "view",
